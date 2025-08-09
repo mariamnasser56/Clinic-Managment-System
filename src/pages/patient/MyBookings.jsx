@@ -32,7 +32,7 @@ const MyBookings = () => {
         };
 
         const response = await fetch(
-          "http://clinicdev.runasp.net/api/Appointments",
+          "import.meta.env.VITE_API_BASE_URL + "/api"/Appointments",
           {
             method: "GET",
             headers,
@@ -135,7 +135,7 @@ const MyBookings = () => {
         Authorization: `Bearer ${token}`,
       };
 
-      fetch(`http://clinicdev.runasp.net/api/Appointments/${bookingId}`, {
+      fetch(`import.meta.env.VITE_API_BASE_URL + "/api"/Appointments/${bookingId}`, {
         method: "DELETE",
         headers,
       }).catch((error) => {

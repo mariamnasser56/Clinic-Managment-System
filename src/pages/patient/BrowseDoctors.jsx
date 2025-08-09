@@ -19,7 +19,7 @@ function BrowseDoctors() {
     async function fetchSpecializations() {
       try {
         const response = await fetch(
-          "http://clinicdev.runasp.net/api/Specializations",
+          "import.meta.env.VITE_API_BASE_URL + "/api"/Specializations",
           {
             method: "GET",
             headers: {
@@ -49,7 +49,7 @@ function BrowseDoctors() {
     async function fetchDoctors() {
       try {
         const response = await fetch(
-          "http://clinicdev.runasp.net/api/Doctors/search",
+          "import.meta.env.VITE_API_BASE_URL + "/api"/Doctors/search",
           {
             method: "GET",
             headers: {
