@@ -17,7 +17,7 @@ function Booking() {
 
   useEffect(() => {
     fetch(
-      `import.meta.env.VITE_API_BASE_URL + "/api"/DoctorSlots/get-doctor-slots?doctorId=${doctorId}`,
+      `${import.meta.env.VITE_API_BASE_URL} + "/api"/DoctorSlots/get-doctor-slots?doctorId=${doctorId}`,
       {
         headers: { Authorization: `Bearer ${token}` },
       }
@@ -47,7 +47,7 @@ function Booking() {
       reason,
     };
 
-      fetch("import.meta.env.VITE_API_BASE_URL + "/api"/Appointments/book", {
+      fetch(import.meta.env.VITE_API_BASE_URL + "/api/Appointments/book", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

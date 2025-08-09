@@ -133,7 +133,7 @@ const PatientBookings = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    fetch('import.meta.env.VITE_API_BASE_URL + "/api"/Doctors/Bookings', {
+    fetch(import.meta.env.VITE_API_BASE_URL + "/api"/Doctors/Bookings, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

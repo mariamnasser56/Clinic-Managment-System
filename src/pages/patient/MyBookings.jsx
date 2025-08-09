@@ -32,7 +32,7 @@ const MyBookings = () => {
         };
 
         const response = await fetch(
-          "import.meta.env.VITE_API_BASE_URL + "/api"/Appointments",
+          import.meta.env.VITE_API_BASE_URL + "/api/Appointments",
           {
             method: "GET",
             headers,
@@ -135,10 +135,13 @@ const MyBookings = () => {
         Authorization: `Bearer ${token}`,
       };
 
-      fetch(`import.meta.env.VITE_API_BASE_URL + "/api"/Appointments/${bookingId}`, {
-        method: "DELETE",
-        headers,
-      }).catch((error) => {
+      fetch(
+        `${import.meta.env.VITE_API_BASE_URL}/api/Appointments/${bookingId}`,
+        {
+          method: "DELETE",
+          headers,
+        }
+      ).catch((error) => {
         console.log("Backend sync failed:", error);
       });
     } catch (error) {
