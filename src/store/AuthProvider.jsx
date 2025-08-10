@@ -20,7 +20,7 @@ function AuthProvider({ children }) {
   }, [token]);
 
   const login = async (email, password) => {
-  const response = await fetch("/api/Auth/login", {  // << بدل الرابط الكامل بالمسار النسبي
+  const response = await fetch("/api/Auth/login", {  
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
@@ -37,7 +37,7 @@ function AuthProvider({ children }) {
   };
 
   const register = async (fullName, email, password,birthDate,gender) => {
-  const response = await fetch("/api/Auth/register-patient", {  // << نفس الشيء هنا
+  const response = await fetch("/api/Auth/register-patient", {  
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ fullName, email, password ,birthDate,gender}),

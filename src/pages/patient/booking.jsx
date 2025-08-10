@@ -47,7 +47,7 @@ function Booking() {
       reason,
     };
 
-      fetch(import.meta.env.VITE_API_BASE_URL + "/api/Appointments/book", {
+      fetch("/api/Appointments/book", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

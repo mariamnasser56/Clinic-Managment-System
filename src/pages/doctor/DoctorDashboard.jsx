@@ -4,7 +4,7 @@ import PatientBookings from "./PatientBookings";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../store/AuthContext";
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL + "/api";
+const BASE_URL = "/api";
 const token = localStorage.getItem("token");
 
 const DoctorDashboard = () => {
