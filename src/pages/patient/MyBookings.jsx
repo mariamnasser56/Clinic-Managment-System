@@ -32,7 +32,7 @@ const MyBookings = () => {
         };
 
         const response = await fetch(
-          import.meta.env.VITE_API_BASE_URL + "/api/Appointments",
+          "/api/Appointments",
           {
             method: "GET",
             headers,
