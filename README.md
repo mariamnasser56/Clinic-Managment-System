@@ -4,7 +4,7 @@ A web-based Clinic Management System that allows patients to browse doctors, boo
 Doctors can manage their bookings, add /remove/edit slot , view patient bookings.
 
 ## 🚀 Live Demo
-[Visit Website](#) <!-- هتحطي لينك Vercel هنا بعد الرفع -->
+https://clinic-managment-system-bay.vercel.app/
 
 ## 🛠️ Tech Stack
 - Frontend: React.js 
