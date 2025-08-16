@@ -45,7 +45,7 @@ Doctors can manage their bookings, **add / edit / remove slots**, and view patie
 4. Run the development server:
 
    ```bash
-   npm start
+   npm run dev
    ```
 
 ## 🌐 API Reference
