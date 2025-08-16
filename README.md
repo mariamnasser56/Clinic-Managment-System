@@ -1,30 +1,37 @@
 # 🏥 MediCore – Clinic Management System
 
-A web-based Clinic Management System that allows patients to browse doctors, book appointments, and manage their medical visits.  
-Doctors can manage their bookings, add /remove/edit slot , view patient bookings.
+A **web-based Clinic Management System** where patients can browse doctors, book appointments, and manage their visits.
+Doctors can manage their bookings, **add / edit / remove slots**, and view patient appointments.
+
+> ⚠️ **Note:** Doctors are pre-populated from the backend API, and there’s **no admin UI** to add or manage doctors—just for demonstration purposes.
 
 ## 🚀 Live Demo
-https://clinic-managment-system-bay.vercel.app/
+
+[Try it here](https://clinic-managment-system-bay.vercel.app/) 🌐
 
 ## 🛠️ Tech Stack
-- Frontend: React.js 
-- Backend: ASP.NET Core (.NET 8)
-- Database: SQL Server
-- Deployment: Vercel (Frontend), Runasp.net (Backend API)
 
- 📌 Features
-- User authentication (Login & Registration)
-- Browse doctors with filters by specialization
-- Book and manage appointments
-- Doctor dashboard to view patients' bookings
-- Role-based access (Patient, Doctor)
+* **Frontend:** React.js
+* **Backend:** ASP.NET Core (.NET 8)
+* **Database:** SQL Server
+* **Deployment:** Vercel (Frontend), Runasp.net (Backend API)
+
+## 📌 Features
+
+* 🔒 User authentication (Login & Registration)
+* 🩺 Browse doctors with filters by specialization
+* 📅 Book and manage appointments
+* 👨‍⚕️ Doctor dashboard to view patient bookings
+* 🧑‍💻 Role-based access (Patient & Doctor)
+* 🔐 Protected routes & authorization
 
 ## ⚙️ Installation
+
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/mariamnasser56/Clinic-Managment-System.git
    ```
-
 2. Navigate to the project folder:
 
    ```bash
@@ -44,7 +51,9 @@ https://clinic-managment-system-bay.vercel.app/
 ## 🌐 API Reference
 
 The backend API is hosted at:
-[http://clinicdev.runasp.net/swagger/index.html](http://clinicdev.runasp.net/swagger/index.html)
+[Swagger API](http://clinicdev.runasp.net/swagger/index.html)
+
+> 🔹 **Note:** Doctors are pre-populated via the backend.
 
 ## 👩‍💻 Author
 
