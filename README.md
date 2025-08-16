@@ -1,7 +1,8 @@
 # 🏥 MediCore – Clinic Management System
 
-A **web-based Clinic Management System** where patients can browse doctors, book appointments, and manage their visits.
-Doctors can manage their bookings, **add / edit / remove slots**, and view patient appointments.
+A **web-based Clinic Management System** where patients can easily browse doctors, filter by specialization, and **book appointments effortlessly**.  
+Doctors can manage their bookings and **update available slots** through an intuitive dashboard.
+
 
 > ⚠️ **Note:** Doctors are pre-populated from the backend API, and there’s **no admin UI** to add or manage doctors—just for demonstration purposes.
 
@@ -19,11 +20,13 @@ Doctors can manage their bookings, **add / edit / remove slots**, and view patie
 ## 📌 Features
 
 * 🔒 User authentication (Login & Registration)
-* 🩺 Browse doctors with filters by specialization
-* 📅 Book and manage appointments
-* 👨‍⚕️ Doctor dashboard to view patient bookings
-* 🧑‍💻 Role-based access (Patient & Doctor)
 * 🔐 Protected routes & authorization
+* 🩺 Browse doctors with filters by specialization & Search by Name
+* 📅 Book and manage appointments
+* 👨‍⚕️ Doctor dashboard to Manage slots, view patient bookings
+* 🧑‍💻 Role-based access (Patient & Doctor)
+* 📱 Responsive design for desktop and mobile
+
 
 ## ⚙️ Installation
 
