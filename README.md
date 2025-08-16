@@ -53,10 +53,4 @@ Doctors can manage their bookings, **add / edit / remove slots**, and view patie
 The backend API is hosted at:
 [Swagger API](http://clinicdev.runasp.net/swagger/index.html)
 
-> 🔹 **Note:** Doctors are pre-populated via the backend.
 
-## 👩‍💻 Author
-
-**Mariam Nasser**
-
-* GitHub: [mariamnasser56](https://github.com/mariamnasser56)
