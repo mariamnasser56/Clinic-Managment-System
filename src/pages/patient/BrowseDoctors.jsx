@@ -2,10 +2,10 @@ import DoctorCard from "../../Components/DoctorCard";
 
 import { useEffect, useState } from "react";
 import Filter from "../../Components/Filter";
-import Search from "../../Components/Search.Jsx";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../../api/baseURL";
 import Loader from "../../Components/Loader";
+import Search from "../../Components/Search";
 
 function BrowseDoctors() {
   const [specializations, setSpecializations] = useState([]);
