@@ -3,6 +3,7 @@ import "./MyBookings.css";
 import AuthContext from "../../store/AuthContext";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../../api/baseURL";
 
 const MyBookings = () => {
   const navigate = useNavigate();
@@ -28,14 +29,14 @@ const MyBookings = () => {
       try {
         const headers = {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`
         };
 
         const response = await fetch(
-          "/api/Appointments",
+          `${BASE_URL}/Appointments`,
           {
             method: "GET",
-            headers,
+            headers
           }
         );
 
@@ -56,7 +57,7 @@ const MyBookings = () => {
               appointment.doctorProfileImage &&
               appointment.doctorProfileImage !== "string"
                 ? appointment.doctorProfileImage
-                : "https://via.placeholder.com/40",
+                : "https://via.placeholder.com/40"
           },
           appointmentDateTime: `${appointment.slotDate}T${appointment.time}`,
           status: "confirmed",
@@ -65,7 +66,7 @@ const MyBookings = () => {
           canCancel: true,
           cancellationCutoff: `${appointment.slotDate}T${appointment.time}`,
           reason: appointment.reason,
-          phoneNumber: appointment.phoneNumber,
+          phoneNumber: appointment.phoneNumber
         }));
         console.log("Transformed bookings:", transformedBookings);
         setBookings(transformedBookings);
@@ -132,16 +133,13 @@ const MyBookings = () => {
 
       const headers = {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`
       };
 
-      fetch(
-        `/api/Appointments/${bookingId}`,
-        {
-          method: "DELETE",
-          headers,
-        }
-      ).catch((error) => {
+      fetch(`/Appointments/${bookingId}`, {
+        method: "DELETE",
+        headers
+      }).catch((error) => {
         console.log("Backend sync failed:", error);
       });
     } catch (error) {
@@ -174,13 +172,13 @@ const MyBookings = () => {
         weekday: "long",
         year: "numeric",
         month: "short",
-        day: "numeric",
+        day: "numeric"
       }) +
       " · " +
       date.toLocaleTimeString("en-US", {
         hour: "numeric",
         minute: "2-digit",
-        hour12: true,
+        hour12: true
       })
     );
   };
@@ -190,7 +188,7 @@ const MyBookings = () => {
       confirmed: { label: "Confirmed", className: "status-confirmed" },
       cancelled: { label: "Cancelled", className: "status-cancelled" },
       completed: { label: "Completed", className: "status-completed" },
-      no_show: { label: "No-show", className: "status-no-show" },
+      no_show: { label: "No-show", className: "status-no-show" }
     };
 
     const config = statusConfig[status] || statusConfig.confirmed;
@@ -219,7 +217,7 @@ const MyBookings = () => {
     <div className="my-bookings-container">
       <div className="bookings-header">
         <div className="header-content">
-          <h1>My Bookings</h1>
+          <h1>My Appointments</h1>
           <p className="subtitle">Manage and track your appointments</p>
         </div>
 

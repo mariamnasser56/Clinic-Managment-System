@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import AuthContext from "./AuthContext";
+import { toast } from "react-toastify";
+import { BASE_URL } from "../api/baseURL";
 
-const storedUser = JSON.parse(localStorage.getItem("user"));
-const storedToken = localStorage.getItem("token");
+const storedUser = JSON.parse(sessionStorage.getItem("user"));
+const storedToken = sessionStorage.getItem("token");
 
 function AuthProvider({ children }) {
   const [user, setUser] = useState(storedUser);
@@ -11,53 +13,63 @@ function AuthProvider({ children }) {
   const isAuthenticated = !!token;
 
   useEffect(() => {
-    localStorage.setItem("user", JSON.stringify(user));
+    sessionStorage.setItem("user", JSON.stringify(user));
   }, [user]);
 
   useEffect(() => {
-    if (token) localStorage.setItem("token", token);
-    else localStorage.removeItem("token");
+    if (token) sessionStorage.setItem("token", token);
+    else sessionStorage.removeItem("token");
   }, [token]);
 
   const login = async (email, password) => {
-  const response = await fetch("/api/Auth/login", {  
+    const response = await fetch(`${BASE_URL}/Auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
     });
 
-    if (!response.ok) throw new Error("Login failed");
+    if (!response.ok) {
+      const error = await response.text();
+      toast.error(error || "Login Failed");
+      return;
+    }
 
     const data = await response.json();
-
     setUser({ email: data.email });
     setToken(data.token);
+    toast.success("Login success");
 
     return data.token;
   };
 
-  const register = async (fullName, email, password,birthDate,gender) => {
-  const response = await fetch("/api/Auth/register-patient", {  
+  const register = async (fullName, email, password, birthDate, gender) => {
+    const response = await fetch(`${BASE_URL}/Auth/register-patient`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ fullName, email, password ,birthDate,gender}),
+      body: JSON.stringify({ fullName, email, password, birthDate, gender }),
     });
-
-    if (!response.ok)
-        throw new Error("Registration failed");
-
     const data = await response.json();
+
+    if (!response.ok) {
+      if (Array.isArray(data) && data.length > 0) {
+        toast.error(data[0].description || "Regiseration Failed");
+      } else {
+        toast.error("Registration failed");
+      }
+      return false;
+    }
 
     setUser({ email: data.email });
     setToken(data.token);
+    toast.success("Registration Success");
+    return true;
   };
 
   const logout = () => {
     setUser(null);
     setToken(null);
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
-
+    sessionStorage.removeItem("user");
+    sessionStorage.removeItem("token");
   };
 
   const contextValue = {
@@ -70,9 +82,7 @@ function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={contextValue}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
   );
 }
 

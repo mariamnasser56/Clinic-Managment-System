@@ -12,6 +12,9 @@ import DoctorDashboard from "./pages/doctor/DoctorDashboard";
 import RegisterForm from "./pages/auth/RegisterForm";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import UnAuthorized from "./Components/UnAuthorized";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const routes = [
   { path: "/", element: <WelcomePage /> },
@@ -46,5 +49,10 @@ const routes = [
 const router = createBrowserRouter(routes);
 
 export default function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <RouterProvider router={router} />
+      <ToastContainer position="top-center" autoClose={3000} />
+    </>
+  );
 }

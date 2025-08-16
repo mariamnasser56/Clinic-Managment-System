@@ -1,8 +1,11 @@
 import DoctorCard from "../../Components/DoctorCard";
+
 import { useEffect, useState } from "react";
 import Filter from "../../Components/Filter";
+import Search from "../../Components/Search.Jsx";
 import { useNavigate } from "react-router-dom";
-import Search from "../../Components/Search";
+import { BASE_URL } from "../../api/baseURL";
+import Loader from "../../Components/Loader";
 
 function BrowseDoctors() {
   const [specializations, setSpecializations] = useState([]);
@@ -11,22 +14,19 @@ function BrowseDoctors() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [doctors, setdoctors] = useState([]);
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
   const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchSpecializations() {
       try {
-        const response = await fetch(
-          "/api/Specializations",
-          {
-            method: "GET",
-            headers: {
-              accept: "*/*",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await fetch(`${BASE_URL}/Specializations`, {
+          method: "GET",
+          headers: {
+            accept: "*/*",
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
         if (!response.ok) {
           throw new Error("Something went wrong: " + response.status);
@@ -42,26 +42,24 @@ function BrowseDoctors() {
     }
 
     fetchSpecializations();
-  }, [token]);
+  }, []);
 
   useEffect(() => {
     async function fetchDoctors() {
       try {
-        const response = await fetch(
-          "/api/Doctors/search",
-          {
-            method: "GET",
-            headers: {
-              accept: "*/*",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await fetch(`${BASE_URL}/Doctors/search`, {
+          method: "GET",
+          headers: {
+            accept: "*/*",
+            Authorization: `Bearer ${token}`,
+          },
+        });
         if (!response.ok) {
           throw new Error("Failed To fetch");
         }
         const data = await response.json();
         const doctorsdata = data.doctors;
+        // console.log(doctorsdata);
         setdoctors(doctorsdata);
       } catch (error) {
         setError(error.message);
@@ -71,7 +69,7 @@ function BrowseDoctors() {
     }
 
     fetchDoctors();
-  }, [token]);
+  }, []);
 
   function makeappointment(id) {
     navigate(`/home/book-appointment?doctorId=${id}`);
@@ -83,13 +81,10 @@ function BrowseDoctors() {
       doctor.fullName.toLowerCase().includes(searchTerm.toLowerCase()) &&
       (selectedOption === "" || doctor.specialization === selectedOption)
   );
-
   return (
     <>
-      {loading && <p className="text-black">Loading...</p>}
-      {error && <p>Error : {error}</p>}
       <div className="flex flex-col gap-6 m-2.5 p-3 lg:px-28 ">
-        {/* Search & filtering */}
+        {/* Seach&filtering */}
         <div className="flex flex-col lg:flex-row gap-6 m-4">
           <Search
             searchTerm={searchTerm}
@@ -102,9 +97,13 @@ function BrowseDoctors() {
           />
         </div>
         {/* ================ */}
-        <div className="flex flex-col gap-3">
+        {loading && <Loader />}
+        {error && <p>Error : {error}</p>}
+        <div className="flex flex-col  gap-3">
           {!loading && !error && filteredDoctors.length === 0 ? (
-            <p>No Doctors Founded</p>
+            <>
+              <p>No Doctors Founded</p>
+            </>
           ) : (
             filteredDoctors.map((doc) => (
               <DoctorCard

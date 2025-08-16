@@ -3,7 +3,7 @@
 // import { Navigate } from "react-router-dom";
 
 // function ProtectedRoute({ children, allowedRoles }) {
-//   const token = localStorage.getItem("token");
+//   const token = sessionStorage.getItem("token");
 //   if (!token) {
 //     return <Navigate to="/" replace />;
 //   }
@@ -14,7 +14,7 @@
 //       "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
 //     ]?.toLowerCase();
 // //   if (decoded.exp * 1000 < Date.now()) {
-// //     localStorage.removeItem("token");
+// //     sessionStorage.removeItem("token");
 // //     return <Navigate to="/" replace />;
 // //   }
 //   if (!role) {
@@ -30,12 +30,11 @@
 
 // export default ProtectedRoute;
 
-
 import { jwtDecode } from "jwt-decode";
 import { Navigate } from "react-router-dom";
 
 function ProtectedRoute({ children, allowedRoles }) {
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
   if (!token) {
     return <Navigate to="/" replace />;
   }
@@ -44,7 +43,9 @@ function ProtectedRoute({ children, allowedRoles }) {
   console.log("Decoded Token:", decoded); // ✅ نشوف كل القيم اللي فيه
 
   const role =
-    decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"].toLowerCase();
+    decoded[
+      "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+    ].toLowerCase();
   console.log("Extracted Role:", role); // ✅ نشوف إيه اللي بيطلع
 
   if (!role) {
@@ -58,4 +59,3 @@ function ProtectedRoute({ children, allowedRoles }) {
 }
 
 export default ProtectedRoute;
-

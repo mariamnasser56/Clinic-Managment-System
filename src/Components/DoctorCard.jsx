@@ -119,7 +119,7 @@ function DoctorCard({
     <div className="flex flex-col bg-white p-4 border border-gray-200 rounded-3xl shadow-lg hover:shadow-xl transition-shadow duration-300 w-full mx-auto">
       {/* Name */}
       <h1 className="text-xl md:text-2xl font-semibold p-1 text-gray-800 text-center md:text-left">
-        Dr.{name}
+        {name}
       </h1>
 
       {/* Content - Responsive layout */}

@@ -15,14 +15,15 @@ export default function RegisterForm() {
 
   const onSubmit = async (values, actions) => {
     try {
-      await register(
+      const success = await register(
         values.fullName,
         values.email,
         values.password,
         values.birthDate,
         values.gender
       );
-
+      if (!success) return;
+      
       actions.resetForm();
       navigate("/login");
     } catch (error) {
@@ -38,10 +39,10 @@ export default function RegisterForm() {
         password: "",
         confirmPassword: "",
         birthDate: "",
-        gender: ""
+        gender: "",
       },
       validationSchema: registerSchema,
-      onSubmit
+      onSubmit,
     });
 
   return (

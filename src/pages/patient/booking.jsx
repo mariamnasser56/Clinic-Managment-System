@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./booking.css";
 import { useSearchParams } from "react-router-dom";
+import { BASE_URL } from "../../api/baseURL";
+import Loader from "../../Components/Loader";
 
 function Booking() {
   const [slots, setSlots] = useState([]);
@@ -13,10 +15,10 @@ function Booking() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [reason, setReason] = useState("");
 
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
 
   useEffect(() => {
-    fetch(`/api/DoctorSlots/get-doctor-slots?doctorId=${doctorId}`, {
+    fetch(`${BASE_URL}/DoctorSlots/get-doctor-slots?doctorId=${doctorId}`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => {
@@ -33,7 +35,7 @@ function Booking() {
         setError(err.message);
         setLoading(false);
       });
-  }, []);
+  }, [doctorId, token]);
 
   const handleBook = (e) => {
     e.preventDefault();
@@ -44,7 +46,7 @@ function Booking() {
       reason,
     };
 
-    fetch("/api/Appointments/book", {
+    fetch(`${BASE_URL}/Appointments/book`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -53,7 +55,7 @@ function Booking() {
       body: JSON.stringify(bookingData),
     })
       .then((res) => {
-        if (!res.ok) throw new Error("Failed to book appointment");
+        if (!res.ok) throw new Error("Failed to book appointment in this Time");
         return res.json();
       })
       .then((data) => {
@@ -71,7 +73,7 @@ function Booking() {
       .catch((err) => alert(err.message));
   };
 
-  if (loading) return <p>Loading slots...</p>;
+  if (loading) return <p><Loader/></p>;
   if (error) return <p style={{ color: "red" }}>❌ {error}</p>;
 
   return (
@@ -82,24 +84,26 @@ function Booking() {
         <p className="no-slots">No slots available</p>
       ) : (
         <ul className="slot-list">
-          {slots.map((slot) => (
-            <li key={slot.id} className="slot-item">
-              <div className="slot-info">
-                <span className="slot-date">
-                  <span className="slot-date-time">
-                    {new Date(slot.date).toLocaleDateString()} —{" "}
-                    {slot.startTime.slice(0, 5)}
+          {slots
+            .filter((slot) => slot.numOfPatientsBooked < slot.maxPatients)
+            .map((slot) => (
+              <li key={slot.id} className="slot-item">
+                <div className="slot-info">
+                  <span className="slot-date">
+                    <span className="slot-date-time">
+                      {new Date(slot.date).toLocaleDateString()} —{" "}
+                      {slot.startTime.slice(0, 5)}
+                    </span>
                   </span>
-                </span>
-              </div>
-              <button
-                className="book-btn"
-                onClick={() => setSelectedSlotId(slot.id)}
-              >
-                Book
-              </button>
-            </li>
-          ))}
+                </div>
+                <button
+                  className="book-btn"
+                  onClick={() => setSelectedSlotId(slot.id)}
+                >
+                  Book
+                </button>
+              </li>
+            ))}
         </ul>
       )}
 

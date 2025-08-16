@@ -3,9 +3,10 @@ import "./DoctorDashboard.css";
 import PatientBookings from "./PatientBookings";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../store/AuthContext";
+import { BASE_URL } from "../../api/baseURL";
+import Loader from "../../Components/Loader";
 
-const BASE_URL = "/api";
-const token = localStorage.getItem("token");
+const token = sessionStorage.getItem("token");
 
 const DoctorDashboard = () => {
   const [slots, setSlots] = useState([]);
@@ -16,13 +17,16 @@ const DoctorDashboard = () => {
   const [maxPatients, setMaxPatients] = useState("");
   const [editingId, setEditingId] = useState(null);
   const [activePage, setActivePage] = useState("slots");
-
-  const { logout } = useContext(AuthContext);
+  const [loadingSlots, setloadingSlots] = useState(true);
   const navigate = useNavigate();
+
+  const { logout, token } = useContext(AuthContext);
   useEffect(() => {
-    fetchDoctorInfo();
-    fetchSlots();
-  }, []);
+    if (token) {
+      fetchDoctorInfo();
+      fetchSlots();
+    }
+  }, [token]);
 
   const handleLogout = () => {
     logout();
@@ -45,6 +49,7 @@ const DoctorDashboard = () => {
 
   const fetchSlots = async () => {
     try {
+      setloadingSlots(true);
       const res = await fetch(`${BASE_URL}/DoctorSlots`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -54,6 +59,8 @@ const DoctorDashboard = () => {
       setSlots(data);
     } catch (err) {
       console.error("Failed to fetch slots:", err);
+    } finally {
+      setloadingSlots(false);
     }
   };
 
@@ -184,10 +191,7 @@ const DoctorDashboard = () => {
           {doctorInfo ? (
             <>
               <h2>Dr. {doctorInfo.name}</h2>
-              <p>
-                <strong>Specialization:</strong> {doctorInfo.specializationName}
-              </p>
-              <p>
+              <p className="bio">
                 <strong>Bio:</strong> {doctorInfo.bio || "No bio available"}
               </p>
             </>
@@ -253,51 +257,61 @@ const DoctorDashboard = () => {
 
             <div className="section">
               <h3>Upcoming Slots</h3>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Session Time</th>
-                    <th>Max Patients</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {slots.map((slot) => (
-                    <tr
-                      key={slot.id}
-                      className={!slot.isActive ? "not-available" : ""}
-                    >
-                      <td>{slot.date.substring(0, 10)}</td>
-                      <td>{slot.time || slot.startTime}</td>
-                      <td>{slot.sessionMinutes || slot.sessionDuration}</td>
-                      <td>{slot.maxPatients}</td>
-                      <td>{slot.isActive ? "Available" : "Unavailable"}</td>
-                      <td className="availability-actions">
-                        <button onClick={() => toggleAvailability(slot)}>
-                          {slot.isActive
-                            ? "Mark Unavailable"
-                            : "Mark Available"}
-                        </button>
-                        <button onClick={() => editSlot(slot)}>Edit</button>
-                        <button
-                          className="cancel-btn"
-                          onClick={() => cancelSlot(slot)}
-                        >
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                  {slots.length === 0 && (
+              <div className="table-container">
+                <table>
+                  <thead>
                     <tr>
-                      <td colSpan="6">No slots added yet.</td>
+                      <th>Date</th>
+                      <th>Time</th>
+                      <th>Session Time</th>
+                      <th>Max Patients</th>
+                      <th>Status</th>
+                      <th>Actions</th>
                     </tr>
-                  )}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {" "}
+                    {loadingSlots ? (
+                      <tr>
+                        <td colSpan="6">
+                          <Loader />
+                        </td>
+                      </tr>
+                    ) : slots.length === 0 ? (
+                      <tr>
+                        <td colSpan="6">No slots Added yet !</td>
+                      </tr>
+                    ) : (
+                      slots.map((slot) => (
+                        <tr
+                          key={slot.id}
+                          className={!slot.isActive ? "not-available" : ""}
+                        >
+                          <td>{slot.date.substring(0, 10)}</td>
+                          <td>{slot.time || slot.startTime}</td>
+                          <td>{slot.sessionMinutes || slot.sessionDuration}</td>
+                          <td>{slot.maxPatients}</td>
+                          <td>{slot.isActive ? "Available" : "Unavailable"}</td>
+                          <td className="availability-actions">
+                            <button onClick={() => toggleAvailability(slot)}>
+                              {slot.isActive
+                                ? "Mark Unavailable"
+                                : "Mark Available"}
+                            </button>
+                            <button onClick={() => editSlot(slot)}>Edit</button>
+                            <button
+                              className="cancel-btn"
+                              onClick={() => cancelSlot(slot)}
+                            >
+                              Delete
+                            </button>
+                          </td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </>
         ) : (
