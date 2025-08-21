@@ -3,6 +3,7 @@ import "./booking.css";
 import { useSearchParams } from "react-router-dom";
 import { BASE_URL } from "../../api/baseURL";
 import Loader from "../../Components/Loader";
+import { toast } from "react-toastify";
 
 function Booking() {
   const [slots, setSlots] = useState([]);
@@ -60,7 +61,7 @@ function Booking() {
       })
       .then((data) => {
         console.log(data);
-        alert(
+        toast.info(
           `Appointment booked successfully!\nDate: ${new Date(
             data.bookingDate
           ).toLocaleDateString()} — Time: ${data.bookingTime}`
