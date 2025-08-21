@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import AuthContext from "../../store/AuthContext";
 import { BASE_URL } from "../../api/baseURL";
 import Loader from "../../Components/Loader";
+import { toast } from "react-toastify";
 
 const token = sessionStorage.getItem("token");
 
@@ -102,7 +103,7 @@ const DoctorDashboard = () => {
 
       if (!response.ok) {
         const errorText = await response.text();
-        alert(errorText);
+        toast.error(errorText);
         clearForm();
         return;
       }
@@ -125,7 +126,7 @@ const DoctorDashboard = () => {
 
   const toggleAvailability = async (slot) => {
     if (slot.numOfPatientsBooked > 0) {
-      alert("You cannot delete this slot because it has existing bookings.");
+      toast.error("You cannot delete this slot because it has existing bookings.");
       return;
     }
     try {
@@ -144,7 +145,7 @@ const DoctorDashboard = () => {
 
   const cancelSlot = async (slot) => {
     if (slot.numOfPatientsBooked > 0) {
-      alert("You cannot delete this slot because it has existing bookings.");
+      toast.error("You cannot make this slot unavaliable because it has existing bookings.");
       return;
     }
     try {
