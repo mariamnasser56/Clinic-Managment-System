@@ -74,7 +74,12 @@ function Booking() {
       .catch((err) => alert(err.message));
   };
 
-  if (loading) return <p><Loader/></p>;
+  if (loading)
+    return (
+      <p>
+        <Loader />
+      </p>
+    );
   if (error) return <p style={{ color: "red" }}>❌ {error}</p>;
 
   return (
@@ -85,26 +90,29 @@ function Booking() {
         <p className="no-slots">No slots available</p>
       ) : (
         <ul className="slot-list">
-          {slots
-            .filter((slot) => slot.numOfPatientsBooked < slot.maxPatients)
-            .map((slot) => (
-              <li key={slot.id} className="slot-item">
-                <div className="slot-info">
-                  <span className="slot-date">
-                    <span className="slot-date-time">
-                      {new Date(slot.date).toLocaleDateString()} —{" "}
-                      {slot.startTime.slice(0, 5)}
+          {slots.filter(
+            (slot) => slot.numOfPatientsBooked < slot.maxPatients
+          ) &&
+            (new Date(slot.date).setHours(0, 0, 0, 0) >= new Date().setHours(0, 0, 0, 0)).map(
+              (slot) => (
+                <li key={slot.id} className="slot-item">
+                  <div className="slot-info">
+                    <span className="slot-date">
+                      <span className="slot-date-time">
+                        {new Date(slot.date).toLocaleDateString()} —{" "}
+                        {slot.startTime.slice(0, 5)}
+                      </span>
                     </span>
-                  </span>
-                </div>
-                <button
-                  className="book-btn"
-                  onClick={() => setSelectedSlotId(slot.id)}
-                >
-                  Book
-                </button>
-              </li>
-            ))}
+                  </div>
+                  <button
+                    className="book-btn"
+                    onClick={() => setSelectedSlotId(slot.id)}
+                  >
+                    Book
+                  </button>
+                </li>
+              )
+            )}
         </ul>
       )}
 
