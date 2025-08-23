@@ -92,8 +92,7 @@ function Booking() {
         <ul className="slot-list">
           {slots.filter(
             (slot) => slot.numOfPatientsBooked < slot.maxPatients
-          ) &&
-            (new Date(slot.date).setHours(0, 0, 0, 0) >= new Date().setHours(0, 0, 0, 0)).map(
+           &&new Date(slot.date).setHours(0, 0, 0, 0) >= new Date().setHours(0, 0, 0, 0)).map(
               (slot) => (
                 <li key={slot.id} className="slot-item">
                   <div className="slot-info">
