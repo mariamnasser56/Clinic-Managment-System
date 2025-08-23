@@ -82,6 +82,29 @@ function Booking() {
     );
   if (error) return <p style={{ color: "red" }}>❌ {error}</p>;
 
+
+  function formatDate(dateStr) {
+  const date = new Date(dateStr);
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+}
+
+function formatTime(timeStr) {
+  const [hour, minute] = timeStr.split(":");
+  const date = new Date();
+  date.setHours(+hour);
+  date.setMinutes(+minute);
+
+  return date.toLocaleTimeString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
+}
+
   return (
     <div className="booking-container">
       <h2 className="booking-title">Available Appointments</h2>
@@ -98,8 +121,7 @@ function Booking() {
                   <div className="slot-info">
                     <span className="slot-date">
                       <span className="slot-date-time">
-                        {new Date(slot.date).toLocaleDateString()} —{" "}
-                        {slot.startTime.slice(0, 5)}
+                         {formatDate(slot.date)} —  {formatTime(slot.startTime)}
                       </span>
                     </span>
                   </div>
