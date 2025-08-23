@@ -67,7 +67,15 @@ const DoctorDashboard = () => {
 
   const addOrEditSlot = async () => {
     if (!date || !startTime || !sessionDuration || !maxPatients) return;
-    console.log();
+
+    const selectedDate = new Date(date);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (selectedDate < today) {
+      toast.error("You cannot add a slot in the past.");
+      return;
+    }
     const slotData = {
       date,
       time: startTime,
@@ -126,7 +134,9 @@ const DoctorDashboard = () => {
 
   const toggleAvailability = async (slot) => {
     if (slot.numOfPatientsBooked > 0) {
-      toast.error("You cannot delete this slot because it has existing bookings.");
+      toast.error(
+        "You cannot delete this slot because it has existing bookings."
+      );
       return;
     }
     try {
@@ -145,7 +155,9 @@ const DoctorDashboard = () => {
 
   const cancelSlot = async (slot) => {
     if (slot.numOfPatientsBooked > 0) {
-      toast.error("You cannot make this slot unavaliable because it has existing bookings.");
+      toast.error(
+        "You cannot make this slot unavaliable because it has existing bookings."
+      );
       return;
     }
     try {
